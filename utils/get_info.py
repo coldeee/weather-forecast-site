@@ -21,7 +21,7 @@ def get_location(location):
                 "details": "true",
             },
         )
-
+            
         data = response.json()
         if data:
             # Возвращаем ключ локации и локализованное название города
@@ -48,6 +48,7 @@ def get_weather_by_location(location_key, location):
                     "metric": "true",
             },
         )
+            
         data = response.json()
 
         weather = []
