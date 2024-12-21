@@ -5,47 +5,48 @@ import requests
 
 from utils.get_info import get_location, get_weather_by_location
 from utils.weather_checker import check_bad_weather
-from utils.file_reader import save_both_to_json
 from utils.visualize import create_dash_app
+from utils.file_reader import save_to_json
 
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        # Получение данных из формы
-        start_location = request.form.get('start_location')
-        end_location = request.form.get('end_location')
+        # Получение всех локаций из формы
+        locations = request.form.getlist('locations[]')
         forecast_days = int(request.form.get('forecast_days', 1))
 
-        # Проверка формата ввода
+        # Проверка формата ввода для всех локаций
         pattern = re.compile('^[А-Яа-яЁёA-Za-z\s]+$')
+        
+        location_keys = []
+        weather_data = []
 
-        if not pattern.match(start_location) or not pattern.match(end_location):
-            error_message = "Некорректный формат ввода. Пожалуйста, используйте только буквы."
-            return render_template('index.html', error=error_message)
+        for location in locations:
+            if not pattern.match(location):
+                error_message = f"Некорректный формат ввода для {location}. Пожалуйста, используйте только буквы."
+                return render_template('index.html', error=error_message)
 
-        # Получение ключей местоположений
-        start_key = get_location(start_location)
-        end_key = get_location(end_location)
+            # Получение ключа местоположения
+            location_key = get_location(location)
+            if not location_key:
+                error_message = f"Не удалось найти местоположение {location}"
+                return render_template('index.html', error=error_message)
 
-        if not start_key:
-            error_message = f"Не удалось найти местоположение {start_location}"
-            return render_template('index.html', error=error_message)
-        elif not end_key:
-            error_message = f"Не удалось найти местоположение {end_location}"
-            return render_template('index.html', error=error_message)   
+            # Получение погодных данных
+            weather = get_weather_by_location(location_key[0], location)
+            if not weather:
+                error_message = f"Не удалось получить данные о погоде для {location}"
+                return render_template('index.html', error=error_message)
 
-        # Получение погодных данных
-        start_weather = get_weather_by_location(start_key[0], start_location)
-        end_weather = get_weather_by_location(end_key[0], end_location)
+            location_keys.append(location_key[1])
+            weather_data.append(weather)
 
-        if not start_weather or not end_weather:
-            error_message = "Не удалось получить данные о погоде."
-            return render_template('index.html', error=error_message)
+        # Сохранение данных
+        save_to_json(weather_data)
 
-        # Сохранение данных и оценка погоды
-        save_both_to_json(start_weather, end_weather)
+        # Оценка погоды
         weather_evaluation = check_bad_weather()
         
         if isinstance(weather_evaluation, list):
@@ -56,10 +57,8 @@ def index():
         
         return render_template('result.html',
                             evaluation=weather_evaluation,
-                            start=start_key[1],
-                            end=end_key[1],
-                            start_weather=start_weather[:forecast_days],
-                            end_weather=end_weather[:forecast_days],
+                            locations=location_keys,
+                            weather_data=weather_data,
                             forecast_days=forecast_days,
                             plot_url='/dash/')
     

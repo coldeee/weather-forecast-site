@@ -212,4 +212,54 @@ button:hover {
     .weather-table td {
         padding: 6px 3px;
     }
+}
+
+.waypoint-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.remove-waypoint {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 20px;
+    color: #ff4444;
+    transition: color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+}
+
+.remove-waypoint:hover {
+    color: #ff0000;
+    transform: scale(1.5);
+    background: transparent;
+}
+
+.remove-waypoint:active {
+    transform: scale(0.95);
+    background: transparent;
+}
+
+.remove-waypoint:focus {
+    background: transparent;
+    outline: none;
+}
+
+.secondary-button {
+    background: #666;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.secondary-button:disabled {
+    background: #999;
+    cursor: not-allowed;
 } 

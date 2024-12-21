@@ -43,6 +43,48 @@
     ],
     [
         {
+            "location": "Якутск",
+            "temperature": -35.5,
+            "humidity": 66,
+            "wind_speed": 1.9,
+            "rain_prob": 0,
+            "day": 1
+        },
+        {
+            "location": "Якутск",
+            "temperature": -33.8,
+            "humidity": 72,
+            "wind_speed": 3.7,
+            "rain_prob": 0,
+            "day": 2
+        },
+        {
+            "location": "Якутск",
+            "temperature": -34.3,
+            "humidity": 65,
+            "wind_speed": 3.7,
+            "rain_prob": 0,
+            "day": 3
+        },
+        {
+            "location": "Якутск",
+            "temperature": -29.0,
+            "humidity": 80,
+            "wind_speed": 3.7,
+            "rain_prob": 0,
+            "day": 4
+        },
+        {
+            "location": "Якутск",
+            "temperature": -30.4,
+            "humidity": 75,
+            "wind_speed": 3.7,
+            "rain_prob": 0,
+            "day": 5
+        }
+    ],
+    [
+        {
             "location": "Псков",
             "temperature": 1.4,
             "humidity": 85,

@@ -1,10 +1,8 @@
 import json
 
-#Используется для запроса в 1 город, далее используем вторую функцию
-def save_to_json(data, filename):
-    weather = []
-    weather.append(data)
-    with open(filename, 'w', encoding='utf-8') as file:
+#Сохранение массива данных в json
+def save_to_json(data):
+    with open('weather_data.json', 'w', encoding='utf-8') as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
 
 #Используем для нашей формы из 2 городой (запись в json)
