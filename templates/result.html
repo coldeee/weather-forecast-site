@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Результаты Погоды</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
     <canvas id="backgroundCanvas"></canvas>
     <div class="container">
+        <div class="navigation">
+            <a href="/dash" class="view-plots-link">Посмотреть графики</a>
+            <a href="/" class="back-link">Назад</a>
+        </div>
         <h1>Оценка Погоды</h1>
         <p><strong>Маршрут:</strong> {{ ' → '.join(locations) }}</p>
         <div class="evaluation">
@@ -36,8 +40,12 @@
                 </table>
             {% endfor %}
         </div>
-        <a href="/dash" class="view-plots-link">Посмотреть графики</a>
-        <a href="/" class="back-link">Назад</a>
+        {% if map_html %}
+        <div id="map" class="map-container">
+            <h2>Маршрут на карте</h2>
+            {{ map_html | safe }}
+        </div>
+        {% endif %}
     </div>
     <script src="/static/js/background.js"></script>
 </body>

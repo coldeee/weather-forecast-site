@@ -7,7 +7,7 @@ def create_dash_app(server):
     dash_app = Dash(__name__, 
                     server=server, 
                     routes_pathname_prefix='/dash/',
-                    external_stylesheets=['/static/main.css'],
+                    external_stylesheets=['/static/css/main.css'],
                     external_scripts=['/static/js/background.js'],
                     index_string=open('templates/dash.html').read())
     
@@ -24,7 +24,7 @@ def create_dash_app(server):
     dash_app.layout = html.Div([
         html.Div([
             html.Div([
-                html.A('Назад', href='/', className='back-button'),
+                html.A('Назад', href='/', className='back-button', id='back-button'),
             ], className='header'),
             
             html.Div([

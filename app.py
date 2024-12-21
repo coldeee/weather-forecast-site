@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 import re
 import json
 import requests
@@ -7,8 +7,10 @@ from utils.get_info import get_location, get_weather_by_location
 from utils.weather_checker import check_bad_weather
 from utils.visualize import create_dash_app
 from utils.file_reader import save_to_json
+from utils.map_handler import create_weather_map_from_json, create_default_map
 
 app = Flask(__name__)
+app.secret_key = '5f214b7884ae6982d4a6f6ede1c0a042'
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -55,12 +57,24 @@ def index():
                 for city in weather_evaluation
             ]
         
+        # Создаем карту
+        weather_map = create_weather_map_from_json()
+        if weather_map:
+            map_html = weather_map._repr_html_()
+        else:
+            map_html = None
+        
+        # Сохраняем данные в сессию
+        session['locations'] = location_keys
+        session['weather_data'] = weather_data
+        
         return render_template('result.html',
                             evaluation=weather_evaluation,
                             locations=location_keys,
                             weather_data=weather_data,
                             forecast_days=forecast_days,
-                            plot_url='/dash/')
+                            plot_url='/dash/',
+                            map_html=map_html)
     
     return render_template('index.html')
 
@@ -71,6 +85,16 @@ dash_app = create_dash_app(app)
 @app.route('/dash/')
 def dash_page():
     return dash_app.index()
+
+@app.route('/map')
+def show_map():
+    """Отображение карты с данными из JSON"""
+    weather_map = create_weather_map_from_json()
+    if weather_map is None:
+        weather_map = create_default_map()
+    
+    map_html = weather_map._repr_html_()
+    return render_template('map.html', map_html=map_html)
 
 if __name__ == '__main__':
     with open('settings.json', 'r', encoding='utf-8') as file:

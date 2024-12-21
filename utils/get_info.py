@@ -76,3 +76,32 @@ def get_weather_by_location(location_key, location):
     except Exception as e:
         print(f"Ошибка при получении погоды: {e}")
         return None
+    
+def geo_position(location_key):
+    #Получение информации о местоположении по ключу локации
+    try:
+        response = requests.get(
+            f"https://dataservice.accuweather.com/locations/v1/{location_key}",
+            params={
+                "apikey": API_KEY,
+                "language": "ru-ru",
+                "details": "true",
+            },
+        )
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if 'GeoPosition' in data:
+                coordinates = {
+                    'lat': data['GeoPosition']['Latitude'],
+                    'lon': data['GeoPosition']['Longitude']
+                }
+                return coordinates
+                
+        print("Не удалось получить данные о геопозиции")
+        return None
+        
+    except Exception as e:
+        print(f"Ошибка при получении геопозиции: {e}")
+        return None
