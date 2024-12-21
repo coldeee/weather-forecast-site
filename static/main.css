@@ -3,6 +3,9 @@ body {
     padding: 0;
     background-color: #1a1a1a;
     color: #ffffff;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
 }
 
 #backgroundCanvas {
@@ -16,13 +19,19 @@ body {
     pointer-events: none;
 }
 
+.dash-container {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+}
+
 .graphs-container {
     position: relative;
     z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 0;
     max-width: 1200px;
     margin: 0 auto;
     background-color: rgba(30, 30, 30, 0.8);
@@ -67,4 +76,83 @@ body {
 .dash-graph {
     position: relative;
     z-index: 1;
+}
+
+/* Стили для контейнера с dropdown'ами */
+.dropdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* Обновленные стили для dropdown'ов */
+.Select-control,
+.Select-menu-outer {
+    background-color: #2a2a2a !important;
+    border: 1px solid #444 !important;
+    border-radius: 4px !important;
+}
+
+.Select-value-label,
+.Select-option {
+    color: #ffffff !important;
+}
+
+.Select-option:hover {
+    background-color: #3a3a3a !important;
+}
+
+._dash-loading {
+    position: relative;
+    z-index: 2;
+}
+
+/* Стили для Dash компонентов */
+.Select-control,
+.Select-menu-outer,
+.Select {
+    position: relative;
+    z-index: 2;
+}
+
+.back-button {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 30px;
+    background-color: #6200ea;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.back-button:hover {
+    background-color: #3700b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.back-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+    width: 100%;
+    padding: 20px;
+    position: relative;
+}
+
+.Select-menu-outer {
+    position: absolute !important;
+    top: 100% !important;
+    z-index: 3;
 }

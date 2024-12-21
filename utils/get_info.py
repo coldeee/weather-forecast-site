@@ -34,39 +34,44 @@ def get_location(location):
         print(f"Ошибка при получении местоположения: {e}")
         return None
 
-# Функция для получения погоды (форкаст на 1 день) по ключу локации 
+# Функция для получения погоды (форкаст на 5 дней) по ключу локации 
 def get_weather_by_location(location_key, location):
     try:
         # Отправляем GET-запрос к API AccuWeather
         response = requests.get(
             "https://dataservice.accuweather.com"
-            f"/forecasts/v1/daily/1day/{location_key}",
+            f"/forecasts/v1/daily/5day/{location_key}",
             params={
-                "apikey": API_KEY,
-                "language": "ru-ru",
-                "details": "true",
-                "metric": "true",
+                    "apikey": API_KEY,
+                    "language": "ru-ru",
+                    "details": "true",
+                    "metric": "true",
             },
         )
         data = response.json()
 
-        # Извлекаем необходимые данные из ответа
-        temp = data["DailyForecasts"][0]["Temperature"]["Maximum"]["Value"]
-        humidity = data["DailyForecasts"][0]["Day"]["RelativeHumidity"]["Average"]
-        wind_speed = data["DailyForecasts"][0]["Day"]["Wind"]["Speed"]["Value"]
-        rain_prob = data["DailyForecasts"][0]["Day"]["RainProbability"]
+        weather = []
+        for i, day in enumerate(data['DailyForecasts']):
+            # Извлекаем необходимые данные из ответа
+            temp = day["Temperature"]["Maximum"]["Value"]
+            humidity = day["Day"]["RelativeHumidity"]["Average"]
+            wind_speed = day["Day"]["Wind"]["Speed"]["Value"]
+            rain_prob = day["Day"]["RainProbability"]
 
-        # Формируем словарь с данными о погоде
-        weather_data = {
-            "location": location,
-            "temperature": temp,
-            "humidity": humidity,
-            "wind_speed": wind_speed,
-            "rain_prob": rain_prob
-        }
+            # Формируем словарь с данными о погоде
+            weather_data = {
+                "location": location,
+                "temperature": temp,
+                "humidity": humidity,
+                "wind_speed": wind_speed,
+                "rain_prob": rain_prob,
+                'day': i + 1
+            }
 
-        return weather_data
+            weather.append(weather_data)
 
+        return weather
+        
     except Exception as e:
         print(f"Ошибка при получении погоды: {e}")
         return None

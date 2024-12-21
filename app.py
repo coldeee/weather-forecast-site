@@ -13,6 +13,7 @@ def index():
         # Получение данных из формы
         start_location = request.form.get('start_location')
         end_location = request.form.get('end_location')
+        forecast_days = int(request.form.get('forecast_days', 1))
 
         # Проверка формата ввода: только буквы и пробелы (например, "Нью Йорк")
 
@@ -46,15 +47,23 @@ def index():
         save_both_to_json(start_weather, end_weather)
 
         # Оценка погодных условий
-        evaluation = check_bad_weather()
+        weather_evaluation = check_bad_weather()
+        
+        # Фильтруем результаты по количеству запрошенных дней
+        if isinstance(weather_evaluation, list):
+            weather_evaluation = [
+                [day for day in city if day['day'] <= forecast_days]
+                for city in weather_evaluation
+            ]
         
         # Отображение результатов
         return render_template('result.html',
-                             evaluation=evaluation,
+                             evaluation=weather_evaluation,
                              start=start_key[1],
                              end=end_key[1],
-                             start_weather=start_weather,
-                             end_weather=end_weather,
+                             start_weather=start_weather[:forecast_days],
+                             end_weather=end_weather[:forecast_days],
+                             forecast_days=forecast_days,
                              plot_url='/dash/')
     
     # Если метод GET, отображаем главную страницу
