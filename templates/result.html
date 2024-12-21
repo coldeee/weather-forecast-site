@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты Погоды</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <canvas id="backgroundCanvas"></canvas>
+    <div class="container">
+        <h1>Оценка Погоды</h1>
+        <p><strong>Маршрут:</strong> {{ start }} → {{ end }}</p>
+        <div class="evaluation">{{ evaluation }}</div>
+
+        <div class="weather-details">
+            <section>
+                <h3>{{ start }}</h3>
+                <ul>
+                    <li>Температура: {{ start_weather.temperature }}°C</li>
+                    <li>Влажность: {{ start_weather.humidity }}%</li>
+                    <li>Ветер: {{ start_weather.wind_speed }} км/ч</li>
+                    <li>Дождь: {{ start_weather.rain_prob }}%</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>{{ end }}</h3>
+                <ul>
+                    <li>Температура: {{ end_weather.temperature }}°C</li>
+                    <li>Влажность: {{ end_weather.humidity }}%</li>
+                    <li>Ветер: {{ end_weather.wind_speed }} км/ч</li>
+                    <li>Дождь: {{ end_weather.rain_prob }}%</li>
+                </ul>
+            </section>
+        </div>
+        <a href="/static/dash.html" class="view-plots-link">Посмотреть графики</a>
+        <a href="/" class="back-link">Назад</a>
+    </div>
+    <script src="/static/js/background.js"></script>
+</body>
+</html> 

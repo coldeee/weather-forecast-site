@@ -1,0 +1,16 @@
+[
+    {
+        "location": "Москва",
+        "temperature": 2.2,
+        "humidity": 77,
+        "wind_speed": 24.1,
+        "rain_prob": 0
+    },
+    {
+        "location": "Пекин",
+        "temperature": 4.0,
+        "humidity": 23,
+        "wind_speed": 18.5,
+        "rain_prob": 2
+    }
+]
